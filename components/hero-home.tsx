@@ -5,10 +5,9 @@ import HeroKeyBridge from "@/public/images/hero-key-bridge.png";
 
 type Props = {
   heading: string;
-  paragraph: string;
 };
 
-export default function HeroHome({ heading, paragraph }: Props) {
+export default function HeroHome({ heading }: Props) {
   return (
     <section className="relative">
       <PageIllustration />
@@ -30,7 +29,10 @@ export default function HeroHome({ heading, paragraph }: Props) {
                 data-aos="zoom-y-out"
                 data-aos-delay={300}
               >
-                {paragraph}
+                A Kubernetes ingress with TLS offload using Azure Key Vault or
+                Managed HSM <br className="max-lg:hidden" />
+                making your cluster{" "}
+                <span className="font-bold">FIPS 140-2</span> compliant
               </p>
             </div>
           </div>

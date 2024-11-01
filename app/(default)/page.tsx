@@ -15,10 +15,10 @@ import Cta from "@/components/cta";
 export default function Home() {
   return (
     <>
-      <Hero heading="Secure Ingress with TLS Offload" paragraph={description} />
+      <Hero heading="Secure Ingress with TLS Offload" />
       {/*<BusinessCategories />*/}
       <FeaturesPlanet />
-      <LargeTestimonial />
+      {/*<LargeTestimonial />*/}
       <Cta />
     </>
   );
