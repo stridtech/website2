@@ -34,7 +34,7 @@ export default function FeaturesPlanet() {
               <p className="text-[15px] text-gray-400">
                 Moves SSL/TLS termination out of your application pods and into
                 the ingress controller. This reduces the overhead on your app
-                and increases security in certificate management.
+                while increasing the security in certificate management.
               </p>
             </article>
             <article>

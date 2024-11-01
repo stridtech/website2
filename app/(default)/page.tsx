@@ -1,5 +1,8 @@
+const description =
+  "A Kubernetes ingress with TLS offload using Azure Key Vault or Managed HSM making your cluster FIPS 140-2 compliant";
+
 export const metadata = {
-  title: "Home - Simple",
+  title: "HSM Ingress - Strid Tech",
   description: "Page description",
 };
 
@@ -12,7 +15,7 @@ import Cta from "@/components/cta";
 export default function Home() {
   return (
     <>
-      <Hero />
+      <Hero heading="Secure Ingress with TLS Offload" paragraph={description} />
       {/*<BusinessCategories />*/}
       <FeaturesPlanet />
       <LargeTestimonial />
