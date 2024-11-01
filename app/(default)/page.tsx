@@ -1,9 +1,7 @@
-const description =
-  "A Kubernetes ingress with TLS offload using Azure Key Vault or Managed HSM making your cluster FIPS 140-2 compliant";
-
 export const metadata = {
   title: "HSM Ingress - Strid Tech",
-  description: "Page description",
+  description:
+    "A Kubernetes ingress with TLS offload using Azure Key Vault or Managed HSM making your cluster FIPS 140-2 compliant",
 };
 
 import Image from "next/image";
