@@ -11,7 +11,7 @@ import FeaturesPlanet from "@/components/features-planet";
 import LargeTestimonial from "@/components/large-testimonial";
 import Cta from "@/components/cta";
 
-import HeroKeyBridge from "@/public/images/bridge-logo.svg";
+import Logo from "@/public/images/logo-dark.svg";
 import Stripes from "@/public/images/stripes.svg";
 
 export default function Home() {
@@ -38,10 +38,10 @@ export default function Home() {
         <div className="mx-auto max-w-3xl flex justify-center items-center">
           <Image
             className="rounded-full"
-            src={HeroKeyBridge}
+            src={Logo}
             width={400}
             height={400}
-            alt="Planet"
+            alt="HSM Ingress Controller logo"
           />
         </div>
       </section>

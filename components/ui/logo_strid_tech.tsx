@@ -10,9 +10,9 @@ export default function Logo() {
           <text
             x="4"
             y="22"
-            font-family="monospace"
-            font-size="24"
-            font-weight="bold"
+            fontFamily="monospace"
+            fontSize="24"
+            fontWeight="bold"
             fill="#3b82f6"
             opacity="0.9"
           >
@@ -21,9 +21,9 @@ export default function Logo() {
           <text
             x="14"
             y="22"
-            font-family="monospace"
-            font-size="24"
-            font-weight="bold"
+            fontFamily="monospace"
+            fontSize="24"
+            fontWeight="bold"
             fill="#60a5fa"
             opacity="0.9"
           >
@@ -32,11 +32,11 @@ export default function Logo() {
         </g>
 
         {/* Company Name */}
-        <text x="32" y="25" font-family="Arial, sans-serif" font-size="18">
-          <tspan font-weight="bold" fill="#1e3a8a">
+        <text x="32" y="25" fontFamily="Arial, sans-serif" fontSize="18">
+          <tspan fontWeight="bold" fill="#1e3a8a">
             Strid
           </tspan>
-          <tspan font-weight="normal" fill="#3b82f6">
+          <tspan fontWeight="normal" fill="#3b82f6">
             Tech
           </tspan>
         </text>

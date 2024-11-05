@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 import Image from "next/image";
 import HeroKeyBridge from "@/public/images/hero-key-bridge.png";
 import PlanetOverlayImg from "@/public/images/planet-overlay.svg";
@@ -15,9 +17,9 @@ function icon_path_to_path(
     return <path d={icon_path} />;
   } else {
     return icon_path.map((ip) => (
-      <>
+      <Fragment key={ip.path}>
         <path opacity={ip.opacity} d={ip.path} />
-      </>
+      </Fragment>
     ));
   }
 }
@@ -36,7 +38,7 @@ export default function FeaturesPlanet() {
           {/* Grid */}
           <div className="grid overflow-hidden sm:grid-cols-2 lg:grid-cols-3 [&>*]:relative [&>*]:p-6 [&>*]:before:absolute [&>*]:before:bg-gray-800 [&>*]:before:[block-size:100vh] [&>*]:before:[inline-size:1px] [&>*]:before:[inset-block-start:0] [&>*]:before:[inset-inline-start:-1px] [&>*]:after:absolute [&>*]:after:bg-gray-800 [&>*]:after:[block-size:1px] [&>*]:after:[inline-size:100vw] [&>*]:after:[inset-block-start:-1px] [&>*]:after:[inset-inline-start:0] md:[&>*]:p-10">
             {features_data.map((feature) => (
-              <article id={feature.title}>
+              <article key={feature.title}>
                 <h3 className="mb-2 flex items-center space-x-2 font-medium text-gray-200">
                   <svg
                     className="fill-blue-500"
