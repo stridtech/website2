@@ -32,7 +32,7 @@ export default function HeroHome({ heading }: Props) {
                 A Kubernetes ingress with TLS offload using Azure Key Vault or
                 Managed HSM <br className="max-lg:hidden" />
                 making your cluster{" "}
-                <span className="font-bold">FIPS 140-2</span> compliant
+                <span className="font-bold">FIPS 140-3</span> compliant
               </p>
             </div>
           </div>
