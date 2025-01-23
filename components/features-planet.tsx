@@ -1,13 +1,5 @@
 import { Fragment } from "react";
 
-import Image from "next/image";
-import HeroKeyBridge from "@/public/images/hero-key-bridge.png";
-import PlanetOverlayImg from "@/public/images/planet-overlay.svg";
-import PlanetTagImg01 from "@/public/images/planet-tag-01.png";
-import PlanetTagImg02 from "@/public/images/planet-tag-02.png";
-import PlanetTagImg03 from "@/public/images/planet-tag-03.png";
-import PlanetTagImg04 from "@/public/images/planet-tag-04.png";
-
 import features_data from "@/data/features.json";
 
 function icon_path_to_path(

@@ -2,6 +2,9 @@ import "./css/style.css";
 
 import { Inter } from "next/font/google";
 
+import Header from "@/components/ui/header";
+import Footer from "@/components/ui/footer";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -24,7 +27,11 @@ export default function RootLayout({
         className={`${inter.variable} bg-gray-50 font-inter tracking-tight text-gray-900 antialiased`}
       >
         <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
-          {children}
+          <Header />
+
+          <main className="grow">{children}</main>
+
+          <Footer border={true} />
         </div>
       </body>
     </html>
