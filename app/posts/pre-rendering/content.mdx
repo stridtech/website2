@@ -1,0 +1,77 @@
+# Installing the HSM Ingress Nginx Controller on AKS
+
+## Prerequisites
+
+- Active Azure Kubernetes Service (AKS) cluster
+- Configured workload identity
+- Bicep development environment
+
+## Step-by-Step Installation Guide
+
+### 1. Bicep Configuration
+
+```bicep
+param clusterName string
+param workloadIdentity string
+
+resource aks 'Microsoft.ContainerService/managedClusters@2024-09-01' existing = {
+  name: clusterName
+}
+
+resource ingressExtension 'Microsoft.KubernetesConfiguration/extensions@2023-05-01' = {
+  name: 'ingress-extension'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  scope: aks
+  plan: {
+    name: 'internal-free'
+    product: 'ingress-nginx-hsm'
+    publisher: 'stridtech'
+  }
+  properties: {
+    extensionType: 'tech.strid.ingress-nginx-hsm-internal-test'
+    autoUpgradeMinorVersion: true
+    configurationSettings: {
+      workloadIdentity: workloadIdentity
+      kubernetesNamespace: 'ingress-nginx'
+      controllerReplicaCount: '1'
+      defaultBackendReplicaCount: '1'
+    }
+  }
+}
+```
+
+### 2. Key Configuration Parameters
+
+- `workloadIdentity`: Specify your workload identity
+- `kubernetesNamespace`: Deployment namespace (default: ingress-nginx)
+- `controllerReplicaCount`: Number of ingress controller replicas
+- `defaultBackendReplicaCount`: Number of default backend replicas
+
+### 3. Deployment Steps
+
+1. Authenticate to Azure CLI
+2. Select appropriate subscription
+3. Deploy Bicep template
+4. Verify extension installation
+
+### Verification
+
+```bash
+az k8s-extension list \
+  --cluster-name $CLUSTER_NAME \
+  --resource-group $RESOURCE_GROUP
+```
+
+## Troubleshooting
+
+- Ensure workload identity permissions
+- Check namespace configurations
+- Verify Azure Marketplace access
+
+## Security Considerations
+
+- Use minimal required permissions
+- Regularly update extensions
+- Monitor extension logs
