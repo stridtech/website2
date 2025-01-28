@@ -2,7 +2,8 @@ import { PropsWithChildren } from "react";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
-import { bicep, bash } from "react-syntax-highlighter/dist/cjs/languages/prism";
+import bash from "react-syntax-highlighter/dist/cjs/languages/prism/bash";
+import bicep from "react-syntax-highlighter/dist/cjs/languages/prism/bicep";
 
 SyntaxHighlighter.registerLanguage("bicep", bicep);
 SyntaxHighlighter.registerLanguage("bash", bash);
