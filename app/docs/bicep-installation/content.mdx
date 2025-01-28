@@ -1,23 +1,28 @@
-# Installing the HSM Ingress Nginx Controller on AKS
+# Installation using Bicep
 
 ## Prerequisites
 
-- Active Azure Kubernetes Service (AKS) cluster
-- Configured workload identity
-- Bicep development environment
+- Bicep deployment environment
+- Azure Kubernetes Service (AKS) cluster
+- Configured workload identity that can read a Azure KeyVault (or Managed HSM)
 
 ## Step-by-Step Installation Guide
 
-### 1. Bicep Configuration
+### Bicep Configuration
 
 ```bicep
+@description('The AKS cluster name')
 param clusterName string
+
+@description('clientId of the federatedIdentityCredential')
 param workloadIdentity string
 
+// Get the AKS cluster
 resource aks 'Microsoft.ContainerService/managedClusters@2024-09-01' existing = {
   name: clusterName
 }
 
+// Install the extension into your AKS cluster
 resource ingressExtension 'Microsoft.KubernetesConfiguration/extensions@2023-05-01' = {
   name: 'ingress-extension'
   identity: {
@@ -25,36 +30,20 @@ resource ingressExtension 'Microsoft.KubernetesConfiguration/extensions@2023-05-
   }
   scope: aks
   plan: {
-    name: 'internal-free'
+    name: 'basic'
     product: 'ingress-nginx-hsm'
     publisher: 'stridtech'
   }
   properties: {
-    extensionType: 'tech.strid.ingress-nginx-hsm-internal-test'
+    extensionType: 'tech.strid.ingress-nginx-hsm'
     autoUpgradeMinorVersion: true
     configurationSettings: {
       workloadIdentity: workloadIdentity
       kubernetesNamespace: 'ingress-nginx'
-      controllerReplicaCount: '1'
-      defaultBackendReplicaCount: '1'
     }
   }
 }
 ```
-
-### 2. Key Configuration Parameters
-
-- `workloadIdentity`: Specify your workload identity
-- `kubernetesNamespace`: Deployment namespace (default: ingress-nginx)
-- `controllerReplicaCount`: Number of ingress controller replicas
-- `defaultBackendReplicaCount`: Number of default backend replicas
-
-### 3. Deployment Steps
-
-1. Authenticate to Azure CLI
-2. Select appropriate subscription
-3. Deploy Bicep template
-4. Verify extension installation
 
 ### Verification
 
@@ -66,7 +55,7 @@ az k8s-extension list \
 
 ## Troubleshooting
 
-- Ensure workload identity permissions
+- Ensure workload identity has permissions to your AKV
 - Check namespace configurations
 - Verify Azure Marketplace access
 

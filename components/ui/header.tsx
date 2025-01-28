@@ -15,10 +15,10 @@ export default function Header() {
           <ul className="flex flex-1 items-center justify-end gap-3">
             <li>
               <Link
-                href="/posts"
+                href="/docs/bicep-installation"
                 className="btn-sm bg-white text-gray-800 shadow hover:bg-gray-50"
               >
-                Login
+                Installation
               </Link>
             </li>
           </ul>
