@@ -1,0 +1,95 @@
+# Installation using Bicep
+
+In this guide we will walk through installing the extension to your Azure Kubernetes Service (AKS) cluster with [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep).
+
+Bicep is a domain-specific language (DSL) that uses declarative syntax to deploy Azure resources. It provides concise syntax, reliable type safety, and support for code reuse. Bicep offers the best authoring experience for your infrastructure-as-code solutions in Azure.
+
+## Before you begin
+
+- This guide assumes a basic understanding of Kubernetes and Bicep
+- If you don't have a AKS cluster setup already you can follow the [official documentation](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-bicep?tabs=azure-cli) to create one.
+
+## Review the Bicep file
+
+The Bicep file used to deploy your extension should look something like this:
+
+```bicep
+@description('The AKS cluster name')
+param clusterName string
+
+@description('clientId of the federatedIdentityCredential')
+param workloadIdentity string
+
+// Get the AKS cluster
+resource aks 'Microsoft.ContainerService/managedClusters@2024-09-01' existing = {
+  name: clusterName
+}
+
+// Install the extension into your AKS cluster
+resource ingressExtension 'Microsoft.KubernetesConfiguration/extensions@2023-05-01' = {
+  name: 'ingress-extension'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  scope: aks
+  plan: {
+    name: 'basic'
+    product: 'ingress-nginx-hsm'
+    publisher: 'stridtech'
+  }
+  properties: {
+    extensionType: 'tech.strid.ingress-nginx-hsm'
+    autoUpgradeMinorVersion: true
+    configurationSettings: {
+      workloadIdentity: workloadIdentity
+      kubernetesNamespace: 'ingress-nginx'
+    }
+  }
+}
+```
+
+The resource defined in the Bicep file:
+
+- [Microsoft.KubernetesConfiguration/extensions](https://learn.microsoft.com/en-us/azure/templates/microsoft.kubernetesconfiguration/extensions?pivots=deployment-language-bicep)
+
+## Deploy the Bicep file
+
+Deploy the Bicep file using either Azure CLI
+
+```bash
+az deployment group create \
+  --resource-group $RESOURCE_GROUP \
+  --template-file ./main.bicep \
+  --parameters clusterName=<cluster-name> workloadIdentity=<workload-identity>
+
+```
+
+Provide the followwing values in the command:
+
+- Cluster name: The name of your AKS cluster
+- Workload identity: The clientId of the federatedIdentityCredential
+
+It takes a couple of minutes to deploy the extension. Wait for it to be deployed before moving on to the next step.
+
+### Validate the Bicep deployment
+
+To check what extensions are installed on your AKS cluster, run the following command:
+
+```bash
+az k8s-extension list \
+  --cluster-name <cluster-name> \
+  --resource-group <resource-group> \
+  --cluster-type managedClusters
+```
+
+You can also make sure the ingress is running in your cluster by checking the pods in the `ingress-nginx` namespace.
+
+```bash
+kubectl get pods -n ingress-nginx
+```
+
+## Next steps
+
+In this guide you added the HSM Ingress Controller extension to your AKS cluster.
+To use the Ingress to direct traffic to your deployments you need to create an Ingress resource.
+This will be covered in the [next guide](/docs/configuring-ingress).

@@ -18,7 +18,7 @@ export default function Header() {
                 href="/docs/bicep-installation"
                 className="btn-sm bg-white text-gray-800 shadow hover:bg-gray-50"
               >
-                Installation
+                Docs
               </Link>
             </li>
           </ul>

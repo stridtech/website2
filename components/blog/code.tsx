@@ -4,9 +4,12 @@ import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import bash from "react-syntax-highlighter/dist/cjs/languages/prism/bash";
 import bicep from "react-syntax-highlighter/dist/cjs/languages/prism/bicep";
+import yaml from "react-syntax-highlighter/dist/cjs/languages/prism/yaml";
 
 SyntaxHighlighter.registerLanguage("bicep", bicep);
 SyntaxHighlighter.registerLanguage("bash", bash);
+SyntaxHighlighter.registerLanguage("yaml", yaml);
+SyntaxHighlighter.registerLanguage("yml", yaml);
 
 export default function Code({
   children,
