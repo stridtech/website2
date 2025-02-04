@@ -4,6 +4,8 @@ In this guide we will walk through installing the extension to your Azure Kubern
 
 Bicep is a domain-specific language (DSL) that uses declarative syntax to deploy Azure resources. It provides concise syntax, reliable type safety, and support for code reuse. Bicep offers the best authoring experience for your infrastructure-as-code solutions in Azure.
 
+For a full example see our [example repo](https://github.com/stridtech/hsm-ingress-example).
+
 ## Before you begin
 
 - This guide assumes a basic understanding of Kubernetes and Bicep
@@ -43,6 +45,8 @@ resource ingressExtension 'Microsoft.KubernetesConfiguration/extensions@2023-05-
     configurationSettings: {
       workloadIdentity: workloadIdentity
       kubernetesNamespace: 'ingress-nginx'
+      controllerReplicaCount: '3' // Default is 1, but we want to have HA
+      defaultBackendReplicaCount: '1'
     }
   }
 }

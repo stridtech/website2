@@ -10,11 +10,11 @@ const docs = [
   /*{
     href: "/docs/manual-installation",
     title: "Manual Installation",
-  },
+  },*/
   {
     href: "/docs/configuring-ingress",
     title: "Configure Ingress",
-  },*/
+  },
 ];
 
 const get_className = (idx: number) => {
