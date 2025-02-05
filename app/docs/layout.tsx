@@ -33,10 +33,12 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
     setSidebarOpen(!sidebarOpen);
   };
   return (
-    <div className="flex pt-4">
+    <div className="flex pt-4 grow">
       {docs.length > 1 ? (
         <aside
-          className={`w-64 min-w-44 border-r-2 border-b border-gray-200 pb-4 md:block ${sidebarOpen ? "block" : "hidden"}`}
+          className={`fixed md:static w-64 min-w-44 border-r-2 border-b border-gray-200 pb-4 md:block bg-white h-full md:h-auto transition-transform duration-300 transform ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-64 md:translate-x-0"
+          }`}
         >
           <nav>
             <ul>
@@ -52,7 +54,9 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
       <main className="flex-1 p-2 md:p-8 bg-gray-100 border-y">
         {docs.length > 1 ? (
           <button
-            className="md:hidden border-r-2 border-y-2 border-gray-200 rounded-r-lg -ml-2 -mt-2 bg-white hamburger-menu"
+            className={`md:hidden border-r-2 border-y-2 border-gray-200 rounded-r-lg -ml-2 -mt-2 bg-white hamburger-menu transition-transform duration-300 transform ${
+              sidebarOpen ? "translate-x-64" : "-translate-x-0 md:translate-x-0"
+            }`}
             onClick={toggleSidebar}
           >
             <div className="hamburger-line bg-gray-800"></div>
@@ -60,8 +64,12 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
             <div className="hamburger-line bg-gray-800"></div>
           </button>
         ) : null}
-        <section className="mx-auto max-w-6xl px-4 sm:px-6">
-          <article className="prose dark:prose-invert py-4">{children}</article>
+        <section className="mx-auto w-full max-w-[90vw] px-4 sm:px-6">
+          <div className="overflow-x-auto">
+            <article className="prose dark:prose-invert py-4 min-w-full">
+              {children}
+            </article>
+          </div>
         </section>
       </main>
     </div>
