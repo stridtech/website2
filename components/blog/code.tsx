@@ -28,7 +28,7 @@ export default function Code({
       {String(children).replace(/\n$/, "")}
     </SyntaxHighlighter>
   ) : (
-    <code className="bg-gray-100 px-2 py-1 rounded-md text-sm font-mono">
+    <code className="bg-gray-200 px-2 py-1 rounded-md text-sm font-mono">
       {children}
     </code>
   );

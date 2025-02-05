@@ -2,7 +2,7 @@
 
 This is a stub documentation, we will update this soon.
 
-For a full example see our [example repo](https://github.com/stridtech/hsm-ingress-example).
+For a full example see our [example repo](https://github.com/stridtech/hsm-ingress-example). You can see a [demo of this example here](https://ingress-demo.strid.tech).
 
 ## Before you begin
 
@@ -34,4 +34,70 @@ metadata:
               image: nginx:1.14.2
               ports:
                 - containerPort: 80
+```
+
+A simple service to match the deployment:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: demo
+  labels:
+    app: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+```
+
+The ingress definition, note that it looks like any `ingress-nginx` ingress definition:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ingress-demo.strid.tech
+      secretName: nginx-tls
+  rules:
+    - host: ingress-demo.strid.tech
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
+```
+
+## Secret creation
+
+The secret we're using doesn't really contain any "secret" data, it contains the public certificate, like a normal tls secret in kubernetes, and some metadata for the ingress to know what key to use.
+The metadata is in the form of `engine:e_akv:vault:kv-name:key-name` where `vault` is the type of key vault (it can also be `hsm`), `kv-name` is the name of the key vault and `key-name` is the name of the key in the key vault.
+
+```yaml
+apiVersion: v1
+data:
+  tls.crt: "base64(certificate)"
+  tls.key: "base64(engine:e_akv:vault:kv-name:key-name)"
+kind: Secret
+metadata:
+  namespace: demo
+  name: nginx-tls
+type: kubernetes.io/tls
 ```
