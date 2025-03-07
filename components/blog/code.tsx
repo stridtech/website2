@@ -4,10 +4,12 @@ import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import bash from "react-syntax-highlighter/dist/cjs/languages/prism/bash";
 import bicep from "react-syntax-highlighter/dist/cjs/languages/prism/bicep";
+import hcl from "react-syntax-highlighter/dist/cjs/languages/prism/hcl";
 import yaml from "react-syntax-highlighter/dist/cjs/languages/prism/yaml";
 
 SyntaxHighlighter.registerLanguage("bicep", bicep);
 SyntaxHighlighter.registerLanguage("bash", bash);
+SyntaxHighlighter.registerLanguage("tf", hcl);
 SyntaxHighlighter.registerLanguage("yaml", yaml);
 SyntaxHighlighter.registerLanguage("yml", yaml);
 

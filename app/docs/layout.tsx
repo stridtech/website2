@@ -7,6 +7,10 @@ const docs = [
     href: "/docs/bicep-installation",
     title: "Bicep Installation",
   },
+  {
+    href: "/docs/terraform-installation",
+    title: "Terraform Installation",
+  },
   /*{
     href: "/docs/manual-installation",
     title: "Manual Installation",

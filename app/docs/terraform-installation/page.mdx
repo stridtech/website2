@@ -1,0 +1,82 @@
+# Installation using Terraform
+
+In this guide we will walk through installing the extension to your Azure Kubernetes Service (AKS) cluster with [Terraform](https://www.terraform.io/).
+
+## Before you begin
+
+- This guide assumes a basic understanding of Kubernetes and Terraform
+- If you don't have a AKS cluster setup already you can follow the [official documentation](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform?pivots=development-environment-azure-cli) to create one.
+
+## Review the Terraform file
+
+The Terraform file used to deploy your extension should look something like this:
+
+```hcl
+resource "azurerm_kubernetes_cluster_extension" "ingress-extension" {
+  name       = "ingress-extension"
+  cluster_id = azurerm_kubernetes_cluster.k8s.id
+
+  plan {
+    name = "basic"
+    product = "ingress-nginx-hsm"
+    publisher = "stridtech"
+  }
+
+  extension_type = "tech.strid.ingress-nginx-hsm"
+
+  configuration_settings = {
+    workloadIdentity = "workloadIdentity"
+    kubernetesNamespace = "ingress-nginx"
+    controllerReplicaCount = "3"
+    defaultBackendReplicaCount = "1"
+  }
+}
+```
+
+You might need a agreement for the marketplace, it can be created through code like this:
+
+```hcl
+resource "azurerm_marketplace_agreement" "ingress-extension-agreement" {
+  publisher = "stridtech"
+  offer     = "ingress-nginx-hsm"
+  plan      = "basic"
+}
+```
+
+The resource defined in the Terraform file:
+
+- [azurerm_kubernetes_cluster_extension](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_extension)
+
+## Deploy the Terraform file
+
+Deploy the Terraform file using either Azure CLI
+
+```bash
+terraform plan -out main.tfplan
+terraform apply main.tfplan
+```
+
+It takes a couple of minutes to deploy the extension. Wait for it to be deployed before moving on to the next step.
+
+### Validate the Terraform deployment
+
+To check what extensions are installed on your AKS cluster, run the following command:
+
+```bash
+az k8s-extension list \
+  --cluster-name <cluster-name> \
+  --resource-group <resource-group> \
+  --cluster-type managedClusters
+```
+
+You can also make sure the ingress is running in your cluster by checking the pods in the `ingress-nginx` namespace.
+
+```bash
+kubectl get pods -n ingress-nginx
+```
+
+## Next steps
+
+In this guide you added the HSM Ingress Controller extension to your AKS cluster.
+To use the Ingress to direct traffic to your deployments you need to create an Ingress resource.
+This will be covered in the [next guide](/docs/configuring-ingress).
